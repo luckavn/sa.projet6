@@ -1,16 +1,13 @@
 package com.axa.softwareacademy.p6.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="account")
 public class Account {
     @Id
     int id;
-    @ManyToOne
+    @OneToOne
     User user;
     float balance;
     String currency;

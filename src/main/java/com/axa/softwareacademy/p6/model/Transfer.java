@@ -3,16 +3,17 @@ package com.axa.softwareacademy.p6.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Transfer {
     @Id
     int id;
-    @ManyToOne
+    @OneToOne
     User user;
-    @ManyToOne
+    @OneToOne
     Account account;
-    @ManyToOne
+    @OneToOne
     BankAccount bankAccount;
     float sum;
     String status;
