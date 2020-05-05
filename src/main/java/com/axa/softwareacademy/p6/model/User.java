@@ -1,11 +1,16 @@
 package com.axa.softwareacademy.p6.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
-@Table(name="user")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +21,7 @@ public class User {
     private String email;
     @OneToMany
     private List<User> friends;
-    @ManyToOne
+    @OneToOne
     private Account account;
     @OneToMany
     private List<BankAccount> bankAccounts;

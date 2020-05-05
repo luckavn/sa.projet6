@@ -1,13 +1,15 @@
 package com.axa.softwareacademy.p6.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
-//@Table(name="app_revenue")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
+@Table(name = "app_revenue")
 public class AppRevenue {
     @Id
     int id;
