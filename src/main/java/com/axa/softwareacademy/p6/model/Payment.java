@@ -51,11 +51,15 @@ public class Payment {
     }
 
     public Date getPaymentDate() {
-        return paymentDate;
+        Date paymentTime = paymentDate;
+        return paymentTime;
     }
 
     public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
+        if (paymentDate == null) {
+            this.paymentDate = null;
+        } else
+            this.paymentDate = new Date (paymentDate.getTime());
     }
 
     public float getCommissionAmount() {
