@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class RefillDAOImplTestIT {
+public class RefillDAOImplTest {
     private RefillDAOImpl refillDAO;
     CreditCard creditCard = new CreditCard();
     Account account = new Account();
@@ -27,7 +27,6 @@ public class RefillDAOImplTestIT {
 
     @Test
     public void createRefillTest() {
-        //Arrange
         Refill refillExpected = new Refill();
         creditCard.setCardNumber(creditCardNumber);
         creditCard.setExpirationDate(expirationDate);
@@ -38,14 +37,16 @@ public class RefillDAOImplTestIT {
         account.setId(1);
         refillExpected.setAccount(account);
 
-        //Act
         Refill refillCalculated = refillDAO.createRefill(creditCard, account, sum);
 
-        //Assert
         assertEquals(refillExpected.getCreditCard().getId(), refillCalculated.getCreditCard().getId());
         assertEquals(refillExpected.getAccount().getId(), refillCalculated.getAccount().getId());
         assertEquals(refillExpected.getCreditCard().getCardNumber(), refillCalculated.getCreditCard().getCardNumber());
         assertEquals(refillExpected.getSum(), refillCalculated.getSum());
+        System.out.print("Test passed: " + refillExpected.getCreditCard().getId() + " (expected) = " + refillCalculated.getCreditCard().getId() + " (actual)");
+        System.out.print("Test passed: " + refillExpected.getAccount().getId() + " (expected) = " + refillCalculated.getAccount().getId() + " (actual)");
+        System.out.print("Test passed: " + refillExpected.getCreditCard().getCardNumber() + " (expected) = " + refillCalculated.getCreditCard().getCardNumber() + " (actual)");
+        System.out.print("Test passed: " + refillExpected.getSum() + " (expected) = " + refillCalculated.getSum() + " (actual)");
     }
 }
 
