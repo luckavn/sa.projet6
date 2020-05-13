@@ -1,6 +1,6 @@
 package com.axa.softwareacademy.p6.dao;
 
-import com.axa.softwareacademy.p6.model.CreditCard;
+import com.axa.softwareacademy.p6.model.BankAccount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,39 +10,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class CreditCardDAOImplTest {
-    private CreditCardDAOImpl creditCardDAO;
-    String cardNumber = "1234567898765432";
-    String expirationDate = "12/24";
-    int secretCode = 123;
+public class BankAccountDAOImplTest {
+    private BankAccountDAOImpl bankAccountDAO;
+    String iban = "FR293456789876543456";
+    String bic = "PPFRTTSSKR";
+    String swift = "45678654";
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        creditCardDAO = new CreditCardDAOImpl();
+        bankAccountDAO = new BankAccountDAOImpl();
     }
 
     @Test
-    public void createCreditCardTest() {
-        CreditCard expectedCreditCard = new CreditCard();
-        expectedCreditCard.setCardNumber(cardNumber);
-        expectedCreditCard.setExpirationDate(expirationDate);
-        expectedCreditCard.setSecretCode(secretCode);
+    public void createBankAccountTest() {
+        BankAccount expectedBankAccount = new BankAccount();
+        expectedBankAccount.setIban(iban);
+        expectedBankAccount.setSwift(swift);
+        expectedBankAccount.setBic(bic);
+        expectedBankAccount.setId(0);
 
-        CreditCard calculatedCreditCard = creditCardDAO.createCreditCard(cardNumber, expirationDate, secretCode);
+        BankAccount calculatedBankAccount = bankAccountDAO.createBankAccount(iban, bic, swift);
 
-        try {
-            assertEquals(expectedCreditCard.getCardNumber(), calculatedCreditCard.getCardNumber());
-            assertEquals(expectedCreditCard.getExpirationDate(), calculatedCreditCard.getExpirationDate());
-            assertEquals(expectedCreditCard.getSecretCode(), calculatedCreditCard.getSecretCode());
-            assertNull(calculatedCreditCard.getUser());
-            assertEquals(0, expectedCreditCard.getId());
-            System.out.print("Test passed: " + expectedCreditCard.getCardNumber() + " (expected) = " + calculatedCreditCard.getCardNumber() + " (actual)");
-            System.out.print("Test passed: " + expectedCreditCard.getExpirationDate() + " (expected) = " + calculatedCreditCard.getExpirationDate() + " (actual)");
-            System.out.print("Test passed: " + calculatedCreditCard.getUser() + " (expected) = " + null + " (actual)");
-            System.out.print("Test passed: " + calculatedCreditCard.getId() + " (expected) = " + 0 + " (actual)");
-
-        } catch (AssertionError ae) {
-            throw ae;
-        }
+        assertEquals(expectedBankAccount.getIban(), calculatedBankAccount.getIban());
+        assertEquals(expectedBankAccount.getBic(), calculatedBankAccount.getBic());
+        assertEquals(expectedBankAccount.getSwift(), calculatedBankAccount.getSwift());
+        assertEquals(expectedBankAccount.getId(), calculatedBankAccount.getId());
+        assertNull(calculatedBankAccount.getUser());
+        System.out.print("Test passed: " + expectedBankAccount.getIban() + " (expected) = " + calculatedBankAccount.getIban() + " (actual)");
+        System.out.print("Test passed: " + expectedBankAccount.getBic() + " (expected) = " + calculatedBankAccount.getBic() + " (actual)");
+        System.out.print("Test passed: " + expectedBankAccount.getSwift() + " (expected) = " + calculatedBankAccount.getSwift() + " (actual)");
+        System.out.print("Test passed: " + expectedBankAccount.getId() + " (expected) = " + expectedBankAccount.getId() + " (actual)");
+        System.out.print("Test passed: " + calculatedBankAccount.getUser() + " (expected) = " + null + " (actual)");
     }
 }
