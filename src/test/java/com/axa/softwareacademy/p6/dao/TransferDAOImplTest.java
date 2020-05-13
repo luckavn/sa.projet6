@@ -1,45 +1,44 @@
 package com.axa.softwareacademy.p6.dao;
 
+import com.axa.softwareacademy.p6.model.Account;
 import com.axa.softwareacademy.p6.model.BankAccount;
+import com.axa.softwareacademy.p6.model.Transfer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class BankAccountDAOImplTest {
-    private BankAccountDAOImpl bankAccountDAO;
-    String iban = "FR293456789876543456";
-    String bic = "PPFRTTSSKR";
-    String swift = "45678654";
+public class TransferDAOImplTest {
+    private TransferDAOImpl transferDAO;
+    Account account = new Account();
+    BankAccount bankAccount = new BankAccount();
+    float sum = 10;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        bankAccountDAO = new BankAccountDAOImpl();
+        transferDAO = new TransferDAOImpl();
     }
 
     @Test
-    public void createBankAccountTest() {
-        BankAccount expectedBankAccount = new BankAccount();
-        expectedBankAccount.setIban(iban);
-        expectedBankAccount.setSwift(swift);
-        expectedBankAccount.setBic(bic);
-        expectedBankAccount.setId(0);
+    public void createTransferTest() {
+        Transfer expectedTransfer = new Transfer();
+        expectedTransfer.setSum(sum);
+        expectedTransfer.setAccount(account);
+        expectedTransfer.setBankAccount(bankAccount);
+        expectedTransfer.setId(0);
 
-        BankAccount calculatedBankAccount = bankAccountDAO.createBankAccount(iban, bic, swift);
+        Transfer calculatedTransfer = transferDAO.createTransfer(account, bankAccount, sum);
 
-        assertEquals(expectedBankAccount.getIban(), calculatedBankAccount.getIban());
-        assertEquals(expectedBankAccount.getBic(), calculatedBankAccount.getBic());
-        assertEquals(expectedBankAccount.getSwift(), calculatedBankAccount.getSwift());
-        assertEquals(expectedBankAccount.getId(), calculatedBankAccount.getId());
-        assertNull(calculatedBankAccount.getUser());
-        System.out.print("Test passed: " + expectedBankAccount.getIban() + " (expected) = " + calculatedBankAccount.getIban() + " (actual)");
-        System.out.print("Test passed: " + expectedBankAccount.getBic() + " (expected) = " + calculatedBankAccount.getBic() + " (actual)");
-        System.out.print("Test passed: " + expectedBankAccount.getSwift() + " (expected) = " + calculatedBankAccount.getSwift() + " (actual)");
-        System.out.print("Test passed: " + expectedBankAccount.getId() + " (expected) = " + expectedBankAccount.getId() + " (actual)");
-        System.out.print("Test passed: " + calculatedBankAccount.getUser() + " (expected) = " + null + " (actual)");
+        assertEquals(expectedTransfer.getSum(), calculatedTransfer.getSum());
+        assertEquals(expectedTransfer.getAccount(), calculatedTransfer.getAccount());
+        assertEquals(expectedTransfer.getBankAccount(), calculatedTransfer.getBankAccount());
+        assertEquals(expectedTransfer.getId(), calculatedTransfer.getId());
+        System.out.print("Test passed: " + expectedTransfer.getSum() + " (expected) = " + calculatedTransfer.getSum() + " (actual)");
+        System.out.print("Test passed: " + expectedTransfer.getAccount() + " (expected) = " + calculatedTransfer.getAccount() + " (actual)");
+        System.out.print("Test passed: " + expectedTransfer.getBankAccount() + " (expected) = " + calculatedTransfer.getBankAccount() + " (actual)");
+        System.out.print("Test passed: " + expectedTransfer.getId() + " (expected) = " + calculatedTransfer.getId() + " (actual)");
     }
 }
