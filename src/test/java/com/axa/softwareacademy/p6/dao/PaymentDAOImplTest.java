@@ -1,8 +1,7 @@
 package com.axa.softwareacademy.p6.dao;
 
 import com.axa.softwareacademy.p6.model.Account;
-import com.axa.softwareacademy.p6.model.CreditCard;
-import com.axa.softwareacademy.p6.model.Refill;
+import com.axa.softwareacademy.p6.model.Payment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,42 +10,50 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class RefillDAOImplTest {
-    private RefillDAOImpl refillDAO;
-    CreditCard creditCard = new CreditCard();
-    Account account = new Account();
-    String creditCardNumber = "234567898765434567898765";
-    String expirationDate = "06/24";
-    int secretCode = 123;
-    float sum = 50;
+public class PaymentDAOImplTest {
+    private PaymentDAOImpl paymentDAO;
+    float sum = 10;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        refillDAO = new RefillDAOImpl();
+        paymentDAO = new PaymentDAOImpl();
     }
 
     @Test
-    public void createRefillTest() {
-        Refill refillExpected = new Refill();
-        creditCard.setCardNumber(creditCardNumber);
-        creditCard.setExpirationDate(expirationDate);
-        creditCard.setSecretCode(secretCode);
-        creditCard.setId(1);
-        refillExpected.setCreditCard(creditCard);
-        refillExpected.setSum(sum);
-        account.setId(1);
-        refillExpected.setAccount(account);
+    public void createPaymentTest() {
+        Account accountThatWillBeCharged = new Account();
+        Account accountThatWillBeFill = new Account();
+        accountThatWillBeCharged.setBalance(100);
+        accountThatWillBeCharged.setId(1);
+        accountThatWillBeFill.setId(2);
 
-        Refill refillCalculated = refillDAO.createRefill(creditCard, account, sum);
+        Payment paymentExpected = new Payment();
+        paymentExpected.setSum((float) (sum - 0.5));
+        paymentExpected.setAccountRecipient(accountThatWillBeFill);
+        paymentExpected.setAccountTransmitter(accountThatWillBeCharged);
+        paymentExpected.setCommissionAmount((float) 0.5);
 
-        assertEquals(refillExpected.getCreditCard().getId(), refillCalculated.getCreditCard().getId());
-        assertEquals(refillExpected.getAccount().getId(), refillCalculated.getAccount().getId());
-        assertEquals(refillExpected.getCreditCard().getCardNumber(), refillCalculated.getCreditCard().getCardNumber());
-        assertEquals(refillExpected.getSum(), refillCalculated.getSum());
-        System.out.print("Test passed: " + refillExpected.getCreditCard().getId() + " (expected) = " + refillCalculated.getCreditCard().getId() + " (actual)");
-        System.out.print("Test passed: " + refillExpected.getAccount().getId() + " (expected) = " + refillCalculated.getAccount().getId() + " (actual)");
-        System.out.print("Test passed: " + refillExpected.getCreditCard().getCardNumber() + " (expected) = " + refillCalculated.getCreditCard().getCardNumber() + " (actual)");
-        System.out.print("Test passed: " + refillExpected.getSum() + " (expected) = " + refillCalculated.getSum() + " (actual)");
+        Payment paymentCalculated = paymentDAO.createPayment(accountThatWillBeCharged, accountThatWillBeFill, sum);
+
+        assertEquals(paymentExpected.getSum(), paymentCalculated.getSum());
+        assertEquals(paymentExpected.getCommissionAmount(), paymentCalculated.getCommissionAmount());
+        assertEquals(paymentExpected.getAccountRecipient().getId(), paymentCalculated.getAccountRecipient().getId());
+        assertEquals(paymentExpected.getAccountTransmitter().getId(), paymentCalculated.getAccountTransmitter().getId());
+        System.out.print("Test passed: " + paymentExpected.getSum() + " (expected) = " + paymentCalculated.getSum() + " (actual)");
+        System.out.print("Test passed: " + paymentExpected.getCommissionAmount() + " (expected) = " + paymentCalculated.getCommissionAmount() + " (actual)");
+        System.out.print("Test passed: " + paymentExpected.getAccountRecipient().getId() + " (expected) = " + paymentCalculated.getAccountRecipient().getId() + " (actual)");
+        System.out.print("Test passed: " + paymentExpected.getAccountTransmitter().getId() + " (expected) = " + paymentCalculated.getAccountTransmitter().getId() + " (actual)");
+    }
+
+    @Test
+    public void calculatePaymentCommissionTest() {
+        float commissionAmountExpected = (float) 0.5;
+
+        float commissionAmountCalculated = paymentDAO.calculatePaymentCommission(sum);
+
+        assertEquals(commissionAmountExpected, commissionAmountCalculated);
+        System.out.print("Test passed: " + commissionAmountExpected + " (expected) = " + commissionAmountCalculated + " (actual)");
+
     }
 }
 

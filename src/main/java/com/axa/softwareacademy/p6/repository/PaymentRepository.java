@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.transaction.Transactional;
 
 @Transactional
-public interface PaymentDAO extends JpaRepository<Payment, Integer> {
+public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 }

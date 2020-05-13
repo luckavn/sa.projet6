@@ -1,27 +1,30 @@
 package com.axa.softwareacademy.p6.dao;
 
 import com.axa.softwareacademy.p6.model.Account;
-import com.axa.softwareacademy.p6.model.CreditCard;
-import com.axa.softwareacademy.p6.model.Refill;
-import com.axa.softwareacademy.p6.repository.AccountRepository;
-import com.axa.softwareacademy.p6.repository.CreditCardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.axa.softwareacademy.p6.model.Payment;
 import org.springframework.stereotype.Component;
 
-@Component
-public class RefillDAOImpl implements RefillDAO {
-    @Autowired
-    CreditCardRepository creditCardRepository;
+import java.util.Date;
 
-    @Autowired
-    AccountRepository accountRepository;
+@Component
+public class PaymentDAOImpl implements PaymentDAO {
+    @Override
+    public Payment createPayment(Account accountThatWillBeCharged, Account accountThatWillBeFill, float sum) {
+        Payment newPayment = new Payment();
+        Date date = new Date();
+        newPayment.setAccountTransmitter(accountThatWillBeCharged);
+        newPayment.setAccountRecipient(accountThatWillBeFill);
+        float commissionAmount = calculatePaymentCommission(sum);
+        newPayment.setCommissionAmount(commissionAmount);
+        sum = sum - commissionAmount;
+        newPayment.setSum(sum);
+        newPayment.setPaymentDate(date);
+        return newPayment;
+    }
 
     @Override
-    public Refill createRefill(CreditCard creditCardWhichWillPay, Account accountThatWillBeRefill, float sum) {
-        Refill newRefill = new Refill();
-        newRefill.setCreditCard(creditCardWhichWillPay);
-        newRefill.setAccount(accountThatWillBeRefill);
-        newRefill.setSum(sum);
-        return newRefill;
+    public float calculatePaymentCommission(float sum) {
+        float commissionAmount = (float) (sum * 0.05);
+        return commissionAmount;
     }
 }
