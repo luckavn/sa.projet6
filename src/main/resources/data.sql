@@ -1,3 +1,3 @@
-insert into USER(id, first_name, last_name, email) values(1, 'John', 'Boyd','jb@gmail.com');
-insert into USER(id, first_name, last_name, email) values(2, 'Lucas', 'Vannier','lv@gmail.com');
+insert into USER(id, firstName, lastName, email, account) values(1, 'John', 'Boyd','jb@gmail.com', 1);
+insert into USER(id, firstName, lastName, email, account) values(2, 'Lucas', 'Vannier','lv@gmail.com', 2);
 

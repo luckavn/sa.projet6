@@ -5,7 +5,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -14,27 +16,29 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private Integer id;
     private String firstName;
     private String lastName;
     @Email
+    @Column(unique = true, name = "email")
     private String email;
+    @Transient
+    private UUID password = UUID.randomUUID();
     @OneToMany
     private List<User> friends;
     @OneToOne
     private Account account;
-    @OneToMany
-    private List<BankAccount> bankAccounts;
-    @OneToMany
-    private List<CreditCard> creditCards;
+    @OneToOne
+    private BankAccount bankAccount;
+    @OneToOne
+    private CreditCard creditCard;
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setId(Integer id) { this.id = id; }
 
     public String getFirstName() {
         return firstName;
@@ -76,19 +80,19 @@ public class User {
         this.account = account;
     }
 
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
+    public BankAccount getBankAccount() {
+        return bankAccount;
     }
 
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
-    public List<CreditCard> getCreditCards() {
-        return creditCards;
+    public CreditCard getCreditCard() {
+        return creditCard;
     }
 
-    public void setCreditCards(List<CreditCard> creditCards) {
-        this.creditCards = creditCards;
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 }
