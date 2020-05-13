@@ -16,12 +16,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {PayMyBuddyApplication.class, H2TestProfileJPAConfig.class})
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class UserControllerTestIT {
 
     @Autowired
     MockMvc mockmvc;
 
-    @Test
+    /*@Test
     public void getAllUsers() throws Exception {
         this.mockmvc.perform(get("/user/all"))
                 .andExpect(status().isOk())
@@ -36,5 +36,5 @@ public class UserControllerTest {
                 .param("email", "john.doe@gmail.com"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getStatus();
-    }
+    }*/
 }

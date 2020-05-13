@@ -5,6 +5,8 @@ import com.axa.softwareacademy.p6.repository.UserRepository;
 import com.axa.softwareacademy.p6.service.ConnectionService;
 import com.axa.softwareacademy.p6.service.CreateService;
 import com.axa.softwareacademy.p6.service.TransactionService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/user")
 public class UserController {
+    private static final Logger logger = LogManager.getLogger(UserController.class);
     @Autowired
     private TransactionService transactionService;
     @Autowired
@@ -29,6 +32,7 @@ public class UserController {
     @ResponseBody
     public String getAllUsers() {
         List<User> usersFound = userRepository.findAll();
+        logger.info(usersFound.toString());
         return "Users list" + usersFound.toString();
     }
 
@@ -39,10 +43,12 @@ public class UserController {
             throw new Exception("Email already exists. Please provide another one");
         } else {
             try {
-                createService.createUser(firstName, lastName, email);
+                User newUser = createService.createUser(firstName, lastName, email);
+                logger.info(newUser);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            logger.info("Add new User - Request OK 200");
             return new ResponseEntity("Saved", HttpStatus.OK);
         }
     }
@@ -52,6 +58,7 @@ public class UserController {
         if(!userRepository.existsByEmail(email)) {
             throw new Exception("Please provide correct email address");
         }
+            logger.info("User connected");
             return connectionService.connectUserToSession(email, password);
     }
 
@@ -63,6 +70,7 @@ public class UserController {
         } else {
             throw new Exception("Friend's email provided is empty");
         }
+        logger.info("Add new friend to user - Request OK 200");
         return new ResponseEntity("Saved", HttpStatus.OK);
     }
 
@@ -74,6 +82,7 @@ public class UserController {
         } else {
             throw new Exception("Please provide allowed Credit Card information");
         }
+        logger.info("Add credit card to user - Request OK 200");
         return new ResponseEntity("Saved", HttpStatus.OK);
     }
 
@@ -85,6 +94,7 @@ public class UserController {
         } else {
             transactionService.createRefillAndAddToUserAccount(id, sum);
         }
+        logger.info("Add refill to user balance");
         return new ResponseEntity("Saved", HttpStatus.OK);
     }
 
@@ -96,6 +106,7 @@ public class UserController {
         } else {
             transactionService.createPaymentAndUpdateBalances(id, friendId, sum);
         }
+        logger.info("Do payment to a friend - Request OK 200");
         return new ResponseEntity("Saved", HttpStatus.OK);
     }
 
@@ -107,6 +118,7 @@ public class UserController {
         } else {
             throw new Exception("Please provide allowed Bank Account information");
         }
+        logger.info("Add bank account to user - Request OK 200");
         return new ResponseEntity("Saved", HttpStatus.OK);
     }
 
@@ -118,6 +130,7 @@ public class UserController {
         } else {
             throw new Exception("You cannot do a 0€ amount transfer");
         }
+        logger.info("Do transfer from user account to bank account - Request OK 200");
         return new ResponseEntity("Saved", HttpStatus.OK);
     }
 }

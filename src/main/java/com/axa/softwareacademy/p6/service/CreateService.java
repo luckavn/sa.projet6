@@ -1,11 +1,14 @@
 package com.axa.softwareacademy.p6.service;
 
+import com.axa.softwareacademy.p6.PayMyBuddyApplication;
 import com.axa.softwareacademy.p6.dao.*;
 import com.axa.softwareacademy.p6.model.Account;
 import com.axa.softwareacademy.p6.model.BankAccount;
 import com.axa.softwareacademy.p6.model.CreditCard;
 import com.axa.softwareacademy.p6.model.User;
 import com.axa.softwareacademy.p6.repository.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @Service
 @Transactional
 public class CreateService {
+    private static final Logger logger = LogManager.getLogger(CreateService.class);
     @Autowired
     UserDAO userDAO;
     @Autowired
@@ -39,9 +43,12 @@ public class CreateService {
         User newUser = userDAO.createUser(firstName, lastName, email);
         newUser.setAccount(newAccountForUser);
         userRepository.save(newUser);
+        logger.info("New user saved successfully");
 
         newAccountForUser.setUser(newUser);
         accountRepository.save(newAccountForUser);
+        logger.info("New account for user saved successfully, linked ok");
+        logger.info(newUser);
         return newUser;
     }
 
@@ -59,10 +66,11 @@ public class CreateService {
             existingFriends.addAll(newFriend);
             userWhoWillAddFriend.setFriends(existingFriends);
             userRepository.save(userWhoWillAddFriend);
-
+            logger.info("New friend for user saved successfully");
         } else {
             throw new Exception("Is already your friend");
         }
+        logger.info(userWhoWillAddFriend);
         return userWhoWillAddFriend;
     }
 
@@ -74,11 +82,14 @@ public class CreateService {
             creditCardRepository.save(newCreditCard);
             userWhoWillAddCreditCard.setCreditCard(newCreditCard);
             userRepository.save(userWhoWillAddCreditCard);
+            logger.info("Credit card linked to user");
             newCreditCard.setUser(userWhoWillAddCreditCard);
             creditCardRepository.save(newCreditCard);
+            logger.info("Credit card saved");
         } else {
             throw new Exception("You already have a credit card informed for your account");
         }
+        logger.info(userWhoWillAddCreditCard);
         return userWhoWillAddCreditCard;
     }
 
@@ -89,11 +100,14 @@ public class CreateService {
 
         if (userWhoWillAddBankAccount.getBankAccount() == null) {
             bankAccountRepository.save(newBankAccount);
+            logger.info("Bank Account saved");
             userWhoWillAddBankAccount.setBankAccount(newBankAccount);
             userRepository.save(userWhoWillAddBankAccount);
+            logger.info("Bank Account linked to user");
         } else {
             throw new Exception("You already have a bank account informed for your account");
         }
+        logger.info(newBankAccount);
         return newBankAccount;
     }
 }
