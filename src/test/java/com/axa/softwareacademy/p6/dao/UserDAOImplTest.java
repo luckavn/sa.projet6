@@ -15,6 +15,7 @@ public class UserDAOImplTest {
     String firstName = "John";
     String lastName = "Doe";
     String email = "john.doe@mail.com";
+    String password = "motdepasse";
 
     @BeforeEach
     private void setUpForTest() throws Exception {
@@ -28,7 +29,7 @@ public class UserDAOImplTest {
         expectedUser.setLastName(lastName);
         expectedUser.setEmail(email);
 
-        User calculatedUser = userDAO.createUser(firstName, lastName, email);
+        User calculatedUser = userDAO.createUser(firstName, lastName, email, password);
         assertEquals(expectedUser.getFirstName(), calculatedUser.getFirstName());
         assertEquals(expectedUser.getLastName(), calculatedUser.getLastName());
         assertEquals(expectedUser.getEmail(), calculatedUser.getEmail());
