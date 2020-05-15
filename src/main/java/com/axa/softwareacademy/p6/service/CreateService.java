@@ -35,12 +35,12 @@ public class CreateService {
     BankAccountRepository bankAccountRepository;
 
 
-    public User createUser(String firstName, String lastName, String email) {
+    public User createUser(String firstName, String lastName, String email, String password) {
         Account newAccountForUser = new Account();
         newAccountForUser.setCurrency("euro");
         accountRepository.save(newAccountForUser);
 
-        User newUser = userDAO.createUser(firstName, lastName, email);
+        User newUser = userDAO.createUser(firstName, lastName, email, password);
         newUser.setAccount(newAccountForUser);
         userRepository.save(newUser);
         logger.info("New user saved successfully");

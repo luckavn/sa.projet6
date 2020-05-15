@@ -37,13 +37,13 @@ public class UserController {
     }
 
     @PostMapping(path = "/addUser")
-    public ResponseEntity<String> addNewUser(@RequestParam(value = "firstname") String firstName, @RequestParam(value = "lastname") String lastName, @RequestParam String email) throws Exception {
+    public ResponseEntity<String> addNewUser(@RequestParam(value = "firstname") String firstName, @RequestParam(value = "lastname") String lastName, @RequestParam String email, @RequestParam String password) throws Exception {
 
         if (userRepository.existsByEmail(email)) {
             throw new Exception("Email already exists. Please provide another one");
         } else {
             try {
-                User newUser = createService.createUser(firstName, lastName, email);
+                User newUser = createService.createUser(firstName, lastName, email, password);
                 logger.info(newUser);
             } catch (Exception e) {
                 e.printStackTrace();
