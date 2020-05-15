@@ -1,6 +1,5 @@
 package com.axa.softwareacademy.p6.service;
 
-import com.axa.softwareacademy.p6.PayMyBuddyApplication;
 import com.axa.softwareacademy.p6.dao.*;
 import com.axa.softwareacademy.p6.model.Account;
 import com.axa.softwareacademy.p6.model.BankAccount;
@@ -20,11 +19,12 @@ import java.util.List;
 public class CreateService {
     private static final Logger logger = LogManager.getLogger(CreateService.class);
     @Autowired
-    UserDAO userDAO;
+    UserBuilder
+            userBuilder;
     @Autowired
-    CreditCardDAO creditCardDAO;
+    CreditCardBuilder creditCardBuilder;
     @Autowired
-    BankAccountDAO bankAccountDAO;
+    BankAccountBuilder bankAccountBuilder;
     @Autowired
     AccountRepository accountRepository;
     @Autowired
@@ -40,7 +40,7 @@ public class CreateService {
         newAccountForUser.setCurrency("euro");
         accountRepository.save(newAccountForUser);
 
-        User newUser = userDAO.createUser(firstName, lastName, email, password);
+        User newUser = userBuilder.createUser(firstName, lastName, email, password);
         newUser.setAccount(newAccountForUser);
         userRepository.save(newUser);
         logger.info("New user saved successfully");
@@ -75,7 +75,7 @@ public class CreateService {
     }
 
     public User createCreditCardAndLinkToUser(int id, String cardNumber, String expirationDate, int secretCode) throws Exception {
-        CreditCard newCreditCard = creditCardDAO.createCreditCard(cardNumber, expirationDate, secretCode);
+        CreditCard newCreditCard = creditCardBuilder.createCreditCard(cardNumber, expirationDate, secretCode);
         User userWhoWillAddCreditCard = userRepository.findById(id);
 
         if (userWhoWillAddCreditCard.getCreditCard() == null) {
@@ -94,7 +94,7 @@ public class CreateService {
     }
 
     public BankAccount createBankAccountAndLinkToUser(int id, String iban, String bic, String swift) throws Exception {
-        BankAccount newBankAccount = bankAccountDAO.createBankAccount(iban, bic, swift);
+        BankAccount newBankAccount = bankAccountBuilder.createBankAccount(iban, bic, swift);
         User userWhoWillAddBankAccount = userRepository.findById(id);
         newBankAccount.setUser(userWhoWillAddBankAccount);
 
