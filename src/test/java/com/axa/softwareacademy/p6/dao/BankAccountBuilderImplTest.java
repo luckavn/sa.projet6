@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class BankAccountDAOImplTest {
-    private BankAccountDAOImpl bankAccountDAO;
+public class BankAccountBuilderImplTest {
+    private BankAccountBuilderImpl bankAccountBuilder;
     String iban = "FR293456789876543456";
     String bic = "PPFRTTSSKR";
     String swift = "45678654";
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        bankAccountDAO = new BankAccountDAOImpl();
+        bankAccountBuilder = new BankAccountBuilderImpl();
     }
 
     @Test
@@ -29,7 +29,7 @@ public class BankAccountDAOImplTest {
         expectedBankAccount.setBic(bic);
         expectedBankAccount.setId(0);
 
-        BankAccount calculatedBankAccount = bankAccountDAO.createBankAccount(iban, bic, swift);
+        BankAccount calculatedBankAccount = bankAccountBuilder.createBankAccount(iban, bic, swift);
 
         assertEquals(expectedBankAccount.getIban(), calculatedBankAccount.getIban());
         assertEquals(expectedBankAccount.getBic(), calculatedBankAccount.getBic());

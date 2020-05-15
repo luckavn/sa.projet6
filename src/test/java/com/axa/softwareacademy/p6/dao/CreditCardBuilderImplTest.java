@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class CreditCardDAOImplTest {
-    private CreditCardDAOImpl creditCardDAO;
+public class CreditCardBuilderImplTest {
+    private CreditCardBuilderImpl creditCardBuilder;
     String cardNumber = "1234567898765432";
     String expirationDate = "12/24";
     int secretCode = 123;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        creditCardDAO = new CreditCardDAOImpl();
+        creditCardBuilder = new CreditCardBuilderImpl();
     }
 
     @Test
@@ -28,7 +28,7 @@ public class CreditCardDAOImplTest {
         expectedCreditCard.setExpirationDate(expirationDate);
         expectedCreditCard.setSecretCode(secretCode);
 
-        CreditCard calculatedCreditCard = creditCardDAO.createCreditCard(cardNumber, expirationDate, secretCode);
+        CreditCard calculatedCreditCard = creditCardBuilder.createCreditCard(cardNumber, expirationDate, secretCode);
 
         assertEquals(expectedCreditCard.getCardNumber(), calculatedCreditCard.getCardNumber());
         assertEquals(expectedCreditCard.getExpirationDate(), calculatedCreditCard.getExpirationDate());

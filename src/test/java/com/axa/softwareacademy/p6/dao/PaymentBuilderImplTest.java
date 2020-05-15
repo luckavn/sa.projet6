@@ -10,13 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class PaymentDAOImplTest {
-    private PaymentDAOImpl paymentDAO;
+public class PaymentBuilderImplTest {
+    private PaymentBuilderImpl paymentBuilder;
     float sum = 10;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        paymentDAO = new PaymentDAOImpl();
+        paymentBuilder = new PaymentBuilderImpl();
     }
 
     @Test
@@ -33,7 +33,7 @@ public class PaymentDAOImplTest {
         paymentExpected.setAccountTransmitter(accountThatWillBeCharged);
         paymentExpected.setCommissionAmount((float) 0.5);
 
-        Payment paymentCalculated = paymentDAO.createPayment(accountThatWillBeCharged, accountThatWillBeFill, sum);
+        Payment paymentCalculated = paymentBuilder.createPayment(accountThatWillBeCharged, accountThatWillBeFill, sum);
 
         assertEquals(paymentExpected.getSum(), paymentCalculated.getSum());
         assertEquals(paymentExpected.getCommissionAmount(), paymentCalculated.getCommissionAmount());
@@ -49,7 +49,7 @@ public class PaymentDAOImplTest {
     public void calculatePaymentCommissionTest() {
         float commissionAmountExpected = (float) 0.5;
 
-        float commissionAmountCalculated = paymentDAO.calculatePaymentCommission(sum);
+        float commissionAmountCalculated = paymentBuilder.calculatePaymentCommission(sum);
 
         assertEquals(commissionAmountExpected, commissionAmountCalculated);
         System.out.print("Test passed: " + commissionAmountExpected + " (expected) = " + commissionAmountCalculated + " (actual)");

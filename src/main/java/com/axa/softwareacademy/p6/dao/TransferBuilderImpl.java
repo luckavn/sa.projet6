@@ -6,7 +6,7 @@ import com.axa.softwareacademy.p6.model.Transfer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TransferDAOImpl implements TransferDAO {
+public class TransferBuilderImpl implements TransferBuilder {
     @Override
     public Transfer createTransfer(Account userAccount, BankAccount userBankAccount, float sum) {
         Transfer

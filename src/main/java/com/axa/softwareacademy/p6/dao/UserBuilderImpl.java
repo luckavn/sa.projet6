@@ -4,7 +4,7 @@ import com.axa.softwareacademy.p6.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserDAOImpl implements UserDAO {
+public class UserBuilderImpl implements UserBuilder {
 
     @Override
     public User createUser(String firstName, String lastName, String email, String password) {

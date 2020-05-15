@@ -6,6 +6,6 @@ import com.axa.softwareacademy.p6.model.Transfer;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface TransferDAO {
+public interface TransferBuilder {
     Transfer createTransfer(Account userAccount, BankAccount userBankAccount, float sum);
 }

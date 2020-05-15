@@ -5,7 +5,7 @@ import com.axa.softwareacademy.p6.model.Payment;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface PaymentDAO {
+public interface PaymentBuilder {
     public float calculatePaymentCommission(float sum);
 
     public Payment createPayment(Account accountThatWillBeCharged, Account accountThatWillBeFill, float sum);

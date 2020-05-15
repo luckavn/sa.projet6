@@ -4,6 +4,6 @@ import com.axa.softwareacademy.p6.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface UserDAO {
+public interface UserBuilder {
     User createUser(String firstName, String lastName, String email, String password);
 }

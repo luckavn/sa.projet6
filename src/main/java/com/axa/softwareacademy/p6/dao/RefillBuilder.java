@@ -6,6 +6,6 @@ import com.axa.softwareacademy.p6.model.Refill;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface RefillDAO {
+public interface RefillBuilder {
     public Refill createRefill(CreditCard creditCardWhichWillPay, Account accountThatWillBeRefill, float sum);
 }

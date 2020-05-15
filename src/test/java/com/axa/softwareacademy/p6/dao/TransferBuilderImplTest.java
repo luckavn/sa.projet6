@@ -11,15 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class TransferDAOImplTest {
-    private TransferDAOImpl transferDAO;
+public class TransferBuilderImplTest {
+    private TransferBuilderImpl transferBuilder;
     Account account = new Account();
     BankAccount bankAccount = new BankAccount();
     float sum = 10;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        transferDAO = new TransferDAOImpl();
+        transferBuilder = new TransferBuilderImpl();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class TransferDAOImplTest {
         expectedTransfer.setBankAccount(bankAccount);
         expectedTransfer.setId(0);
 
-        Transfer calculatedTransfer = transferDAO.createTransfer(account, bankAccount, sum);
+        Transfer calculatedTransfer = transferBuilder.createTransfer(account, bankAccount, sum);
 
         assertEquals(expectedTransfer.getSum(), calculatedTransfer.getSum());
         assertEquals(expectedTransfer.getAccount(), calculatedTransfer.getAccount());

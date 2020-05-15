@@ -11,8 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class RefillDAOImplTest {
-    private RefillDAOImpl refillDAO;
+public class RefillBuilderImplTest {
+    private RefillBuilderImpl refillBuilder;
     CreditCard creditCard = new CreditCard();
     Account account = new Account();
     String creditCardNumber = "234567898765434567898765";
@@ -22,7 +22,7 @@ public class RefillDAOImplTest {
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        refillDAO = new RefillDAOImpl();
+        refillBuilder = new RefillBuilderImpl();
     }
 
     @Test
@@ -37,7 +37,7 @@ public class RefillDAOImplTest {
         account.setId(1);
         refillExpected.setAccount(account);
 
-        Refill refillCalculated = refillDAO.createRefill(creditCard, account, sum);
+        Refill refillCalculated = refillBuilder.createRefill(creditCard, account, sum);
 
         assertEquals(refillExpected.getCreditCard().getId(), refillCalculated.getCreditCard().getId());
         assertEquals(refillExpected.getAccount().getId(), refillCalculated.getAccount().getId());

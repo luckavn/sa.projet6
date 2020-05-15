@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDAOImplTest {
-    private UserDAOImpl userDAO;
+public class UserBuilderImplTest {
+    private UserBuilderImpl userBuilder;
     String firstName = "John";
     String lastName = "Doe";
     String email = "john.doe@mail.com";
@@ -19,7 +19,7 @@ public class UserDAOImplTest {
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        userDAO = new UserDAOImpl();
+        userBuilder = new UserBuilderImpl();
     }
 
     @Test
@@ -29,7 +29,7 @@ public class UserDAOImplTest {
         expectedUser.setLastName(lastName);
         expectedUser.setEmail(email);
 
-        User calculatedUser = userDAO.createUser(firstName, lastName, email, password);
+        User calculatedUser = userBuilder.createUser(firstName, lastName, email, password);
         assertEquals(expectedUser.getFirstName(), calculatedUser.getFirstName());
         assertEquals(expectedUser.getLastName(), calculatedUser.getLastName());
         assertEquals(expectedUser.getEmail(), calculatedUser.getEmail());

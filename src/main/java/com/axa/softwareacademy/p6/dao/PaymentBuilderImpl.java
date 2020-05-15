@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class PaymentDAOImpl implements PaymentDAO {
+public class PaymentBuilderImpl implements PaymentBuilder {
     @Override
     public Payment createPayment(Account accountThatWillBeCharged, Account accountThatWillBeFill, float sum) {
         Payment newPayment = new Payment();

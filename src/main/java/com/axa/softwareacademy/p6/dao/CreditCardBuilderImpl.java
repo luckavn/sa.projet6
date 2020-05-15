@@ -4,7 +4,7 @@ import com.axa.softwareacademy.p6.model.CreditCard;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreditCardDAOImpl implements CreditCardDAO {
+public class CreditCardBuilderImpl implements CreditCardBuilder {
     @Override
     public CreditCard createCreditCard(String cardNumber, String expirationDate, int secretCode) {
         CreditCard
