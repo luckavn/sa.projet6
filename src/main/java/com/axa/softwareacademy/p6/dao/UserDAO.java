@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface UserDAO {
-    User createUser(String firstName, String lastName, String email);
+    User createUser(String firstName, String lastName, String email, String password);
 }

@@ -23,8 +23,8 @@ public class User {
     @Email
     @Column(unique = true, name = "email")
     private String email;
-    @Transient
-    private UUID password = UUID.randomUUID();
+    @NotNull
+    private String password;
     @OneToMany
     private List<User> friends;
     @OneToOne
@@ -94,5 +94,14 @@ public class User {
 
     public void setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password =
+                password;
     }
 }
