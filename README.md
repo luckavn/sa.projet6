@@ -8,6 +8,10 @@ Pay My Buddy is a service that gives several features to a connected user :
 - Refill from credit card to user's account
 - Transfer from user's account to his bank account
 
+## Database Schema (UML)
+
+![](DiagrammeUML.png)
+
 ## Prerequisite to run it
 
 - Java 1.8 JDK (or +)
@@ -19,7 +23,7 @@ Pay My Buddy is a service that gives several features to a connected user :
 
 ```mvn
 mvn clean install
-mvn test (generate tests and test report)
+mvn clean verify (generate tests and test report)
 mvn site (generate reportings)
 ```
 
