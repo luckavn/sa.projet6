@@ -1,8 +1,5 @@
 package com.axa.softwareacademy.p6.service;
 
-import com.axa.softwareacademy.p6.dao.PaymentBuilder;
-import com.axa.softwareacademy.p6.dao.RefillBuilder;
-import com.axa.softwareacademy.p6.dao.TransferBuilder;
 import com.axa.softwareacademy.p6.model.Payment;
 import com.axa.softwareacademy.p6.model.Refill;
 import com.axa.softwareacademy.p6.model.Transfer;
@@ -23,14 +20,11 @@ import javax.transaction.Transactional;
 public class TransactionService {
     private static final Logger logger = LogManager.getLogger(TransactionService.class);
     @Autowired
-    RefillBuilder
-            refillBuilder;
+    Refill refill;
     @Autowired
-    PaymentBuilder
-            paymentBuilder;
+    Payment payment;
     @Autowired
-    TransferBuilder
-            transferBuilder;
+    Transfer transfer;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -42,7 +36,7 @@ public class TransactionService {
 
     public Refill createRefillAndAddToUserAccount(int id, float sum) throws Exception {
         User userConcerned = userRepository.findById(id);
-        Refill newRefill = refillBuilder.createRefill(userConcerned.getCreditCard(), userConcerned.getAccount(), sum);
+        Refill newRefill = refill.createRefill(userConcerned.getCreditCard(), userConcerned.getAccount(), sum);
 
         if(userRepository.existsById(id)) {
             refillRepository.save(newRefill);
@@ -62,7 +56,7 @@ public class TransactionService {
     public Payment createPaymentAndUpdateBalances(int id, int friendId, float sum) throws Exception {
         User userThatWillBeCharged = userRepository.findById(id);
         User userThatWillBeFill = userRepository.findById(friendId);
-        Payment newPayment = paymentBuilder.createPayment(userThatWillBeCharged.getAccount(), userThatWillBeFill.getAccount(), sum);
+        Payment newPayment = payment.createPayment(userThatWillBeCharged.getAccount(), userThatWillBeFill.getAccount(), sum);
 
         if (userThatWillBeCharged.getAccount().getBalance() > newPayment.getSum()) {
             paymentRepository.save(newPayment);
@@ -85,7 +79,7 @@ public class TransactionService {
 
     public Transfer createTransferAndUpdateUserAccount(int id, float sum) throws Exception {
         User userConcerned = userRepository.findById(id);
-        Transfer newTransfer = transferBuilder.createTransfer(userConcerned.getAccount(), userConcerned.getBankAccount(), sum);
+        Transfer newTransfer = transfer.createTransfer(userConcerned.getAccount(), userConcerned.getBankAccount(), sum);
 
         if (userConcerned.getAccount().getBalance() > sum) {
             newTransfer.setUser(userConcerned);

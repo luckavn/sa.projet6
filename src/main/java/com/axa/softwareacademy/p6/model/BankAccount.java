@@ -2,9 +2,11 @@ package com.axa.softwareacademy.p6.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
+@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
@@ -55,5 +57,15 @@ public class BankAccount {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public BankAccount createBankAccount(String iban, String bic, String swift) {
+        BankAccount
+                newBankAccount =
+                new BankAccount();
+        newBankAccount.setBic(bic);
+        newBankAccount.setIban(iban);
+        newBankAccount.setSwift(swift);
+        return newBankAccount;
     }
 }

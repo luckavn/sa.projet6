@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
 
-@Transactional
 public interface CreditCardRepository extends JpaRepository<CreditCard, Integer> {
     CreditCard findById(int creditCardId);
 

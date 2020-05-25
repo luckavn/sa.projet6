@@ -1,4 +1,4 @@
-package com.axa.softwareacademy.p6.dao;
+package com.axa.softwareacademy.p6.model;
 
 import com.axa.softwareacademy.p6.model.Account;
 import com.axa.softwareacademy.p6.model.Payment;
@@ -10,13 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class PaymentBuilderImplTest {
-    private PaymentBuilderImpl paymentBuilder;
+public class PaymentImplTest {
+    private Payment payment;
     float sum = 10;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        paymentBuilder = new PaymentBuilderImpl();
+        payment = new Payment();
     }
 
     @Test
@@ -33,7 +33,7 @@ public class PaymentBuilderImplTest {
         paymentExpected.setAccountTransmitter(accountThatWillBeCharged);
         paymentExpected.setCommissionAmount((float) 0.5);
 
-        Payment paymentCalculated = paymentBuilder.createPayment(accountThatWillBeCharged, accountThatWillBeFill, sum);
+        Payment paymentCalculated = payment.createPayment(accountThatWillBeCharged, accountThatWillBeFill, sum);
 
         assertEquals(paymentExpected.getSum(), paymentCalculated.getSum());
         assertEquals(paymentExpected.getCommissionAmount(), paymentCalculated.getCommissionAmount());
@@ -49,7 +49,7 @@ public class PaymentBuilderImplTest {
     public void calculatePaymentCommissionTest() {
         float commissionAmountExpected = (float) 0.5;
 
-        float commissionAmountCalculated = paymentBuilder.calculatePaymentCommission(sum);
+        float commissionAmountCalculated = payment.calculatePaymentCommission(sum);
 
         assertEquals(commissionAmountExpected, commissionAmountCalculated);
         System.out.print("Test passed: " + commissionAmountExpected + " (expected) = " + commissionAmountCalculated + " (actual)");

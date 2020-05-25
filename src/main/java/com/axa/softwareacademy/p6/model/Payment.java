@@ -2,10 +2,12 @@ package com.axa.softwareacademy.p6.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "payment")
@@ -50,10 +52,7 @@ public class Payment {
         this.sum = sum;
     }
 
-    public Date getPaymentDate() {
-        Date paymentTime = paymentDate;
-        return paymentTime;
-    }
+    public Date getPaymentDate() { Date paymentTime = paymentDate;return paymentTime; }
 
     public void setPaymentDate(Date paymentDate) {
         if (paymentDate == null) {
@@ -68,5 +67,23 @@ public class Payment {
 
     public void setCommissionAmount(float commissionAmount) {
         this.commissionAmount = commissionAmount;
+    }
+
+    public Payment createPayment(Account accountThatWillBeCharged, Account accountThatWillBeFill, float sum) {
+        Payment newPayment = new Payment();
+        Date date = new Date();
+        newPayment.setAccountTransmitter(accountThatWillBeCharged);
+        newPayment.setAccountRecipient(accountThatWillBeFill);
+        float commissionAmount = calculatePaymentCommission(sum);
+        newPayment.setCommissionAmount(commissionAmount);
+        sum = sum - commissionAmount;
+        newPayment.setSum(sum);
+        newPayment.setPaymentDate(date);
+        return newPayment;
+    }
+
+    public float calculatePaymentCommission(float sum) {
+        float commissionAmount = (float) (sum * 0.05);
+        return commissionAmount;
     }
 }

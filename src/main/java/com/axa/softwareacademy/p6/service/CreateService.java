@@ -1,11 +1,13 @@
 package com.axa.softwareacademy.p6.service;
 
-import com.axa.softwareacademy.p6.dao.*;
 import com.axa.softwareacademy.p6.model.Account;
 import com.axa.softwareacademy.p6.model.BankAccount;
 import com.axa.softwareacademy.p6.model.CreditCard;
 import com.axa.softwareacademy.p6.model.User;
-import com.axa.softwareacademy.p6.repository.*;
+import com.axa.softwareacademy.p6.repository.AccountRepository;
+import com.axa.softwareacademy.p6.repository.BankAccountRepository;
+import com.axa.softwareacademy.p6.repository.CreditCardRepository;
+import com.axa.softwareacademy.p6.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,11 @@ import java.util.List;
 public class CreateService {
     private static final Logger logger = LogManager.getLogger(CreateService.class);
     @Autowired
-    UserBuilder
-            userBuilder;
+    User user;
     @Autowired
-    CreditCardBuilder creditCardBuilder;
+    CreditCard creditCard;
     @Autowired
-    BankAccountBuilder bankAccountBuilder;
+    BankAccount bankAccount;
     @Autowired
     AccountRepository accountRepository;
     @Autowired
@@ -40,7 +41,7 @@ public class CreateService {
         newAccountForUser.setCurrency("euro");
         accountRepository.save(newAccountForUser);
 
-        User newUser = userBuilder.createUser(firstName, lastName, email, password);
+        User newUser = user.createUser(firstName, lastName, email, password);
         newUser.setAccount(newAccountForUser);
         userRepository.save(newUser);
         logger.info("New user saved successfully");
@@ -74,8 +75,8 @@ public class CreateService {
         return userWhoWillAddFriend;
     }
 
-    public User createCreditCardAndLinkToUser(int id, String cardNumber, String expirationDate, int secretCode) throws Exception {
-        CreditCard newCreditCard = creditCardBuilder.createCreditCard(cardNumber, expirationDate, secretCode);
+    public User createCreditCardAndLinkToUser(int id, String cardNumber, String expirationDate, int cvvNumber) throws Exception {
+        CreditCard newCreditCard = creditCard.createCreditCard(cardNumber, expirationDate, cvvNumber);
         User userWhoWillAddCreditCard = userRepository.findById(id);
 
         if (userWhoWillAddCreditCard.getCreditCard() == null) {
@@ -94,7 +95,7 @@ public class CreateService {
     }
 
     public BankAccount createBankAccountAndLinkToUser(int id, String iban, String bic, String swift) throws Exception {
-        BankAccount newBankAccount = bankAccountBuilder.createBankAccount(iban, bic, swift);
+        BankAccount newBankAccount = bankAccount.createBankAccount(iban, bic, swift);
         User userWhoWillAddBankAccount = userRepository.findById(id);
         newBankAccount.setUser(userWhoWillAddBankAccount);
 

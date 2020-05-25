@@ -33,7 +33,7 @@ CREATE TABLE credit_card
     id             INT         NOT NULL AUTO_INCREMENT,
     cardNumber     VARCHAR(50) NOT NULL,
     expirationDate VARCHAR(5)  NOT NULL,
-    secretCode     VARCHAR(3)  NOT NULL,
+    cvvNumber      VARCHAR(3)  NOT NULL,
     user           INT         NOT NULL,
     PRIMARY KEY (id)
 );
@@ -52,15 +52,6 @@ CREATE TABLE app_revenue
 (
     id           INT   NOT NULL AUTO_INCREMENT,
     totalRevenue FLOAT NOT NULL,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE commission
-(
-    id               INT        NOT NULL AUTO_INCREMENT,
-    commissionAmount FLOAT      NOT NULL,
-    secretCode       VARCHAR(3) NOT NULL,
-    user             INT        NOT NULL,
     PRIMARY KEY (id)
 );
 

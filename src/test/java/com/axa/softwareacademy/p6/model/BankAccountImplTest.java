@@ -1,4 +1,4 @@
-package com.axa.softwareacademy.p6.dao;
+package com.axa.softwareacademy.p6.model;
 
 import com.axa.softwareacademy.p6.model.BankAccount;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class BankAccountBuilderImplTest {
-    private BankAccountBuilderImpl bankAccountBuilder;
+public class BankAccountImplTest {
+    private BankAccount bankAccount;
     String iban = "FR293456789876543456";
     String bic = "PPFRTTSSKR";
     String swift = "45678654";
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        bankAccountBuilder = new BankAccountBuilderImpl();
+        bankAccount = new BankAccount();
     }
 
     @Test
@@ -29,7 +29,7 @@ public class BankAccountBuilderImplTest {
         expectedBankAccount.setBic(bic);
         expectedBankAccount.setId(0);
 
-        BankAccount calculatedBankAccount = bankAccountBuilder.createBankAccount(iban, bic, swift);
+        BankAccount calculatedBankAccount = bankAccount.createBankAccount(iban, bic, swift);
 
         assertEquals(expectedBankAccount.getIban(), calculatedBankAccount.getIban());
         assertEquals(expectedBankAccount.getBic(), calculatedBankAccount.getBic());

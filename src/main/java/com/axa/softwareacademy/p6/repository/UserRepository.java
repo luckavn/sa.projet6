@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
     Boolean existsByEmail(String email);
 

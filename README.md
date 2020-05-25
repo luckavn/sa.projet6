@@ -16,8 +16,8 @@ Pay My Buddy is a service that gives several features to a connected user :
 
 - Java 1.8 JDK (or +)
 - Maven 3.5.X (or +)
-- Spring Boot 2.2.X (or +)
-- MySQL 5.X (or+)
+
+- MySQL 5.X (or+) : You need to create a MySQL database named "pmb" on localhost:8080
 
 ## Run app
 

@@ -1,4 +1,4 @@
-package com.axa.softwareacademy.p6.dao;
+package com.axa.softwareacademy.p6.model;
 
 import com.axa.softwareacademy.p6.model.Account;
 import com.axa.softwareacademy.p6.model.BankAccount;
@@ -11,15 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class TransferBuilderImplTest {
-    private TransferBuilderImpl transferBuilder;
+public class TransferImplTest {
+    private Transfer transfer;
     Account account = new Account();
     BankAccount bankAccount = new BankAccount();
     float sum = 10;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        transferBuilder = new TransferBuilderImpl();
+        transfer = new Transfer();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class TransferBuilderImplTest {
         expectedTransfer.setBankAccount(bankAccount);
         expectedTransfer.setId(0);
 
-        Transfer calculatedTransfer = transferBuilder.createTransfer(account, bankAccount, sum);
+        Transfer calculatedTransfer = transfer.createTransfer(account, bankAccount, sum);
 
         assertEquals(expectedTransfer.getSum(), calculatedTransfer.getSum());
         assertEquals(expectedTransfer.getAccount(), calculatedTransfer.getAccount());

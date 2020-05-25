@@ -75,10 +75,10 @@ public class UserController {
     }
 
     @PostMapping(path = "/addCreditCardToUser")
-    public ResponseEntity<String> addCreditCardToUser(@RequestParam(value = "userId") int id, @RequestParam String cardNumber, @RequestParam String expirationDate, @RequestParam int secretCode) throws Exception {
+    public ResponseEntity<String> addCreditCardToUser(@RequestParam(value = "userId") int id, @RequestParam String cardNumber, @RequestParam String expirationDate, @RequestParam int cvvNumber) throws Exception {
 
-        if (!cardNumber.isEmpty() || !expirationDate.isEmpty() || secretCode == 0) {
-            createService.createCreditCardAndLinkToUser(id, cardNumber, expirationDate, secretCode);
+        if (!cardNumber.isEmpty() || !expirationDate.isEmpty() || cvvNumber == 0) {
+            createService.createCreditCardAndLinkToUser(id, cardNumber, expirationDate, cvvNumber);
         } else {
             throw new Exception("Please provide allowed Credit Card information");
         }

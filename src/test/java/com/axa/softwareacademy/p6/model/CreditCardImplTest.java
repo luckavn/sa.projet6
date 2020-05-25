@@ -1,4 +1,4 @@
-package com.axa.softwareacademy.p6.dao;
+package com.axa.softwareacademy.p6.model;
 
 import com.axa.softwareacademy.p6.model.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class CreditCardBuilderImplTest {
-    private CreditCardBuilderImpl creditCardBuilder;
+public class CreditCardImplTest {
+    private CreditCard creditCard;
     String cardNumber = "1234567898765432";
     String expirationDate = "12/24";
-    int secretCode = 123;
+    int cvvNumber = 123;
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        creditCardBuilder = new CreditCardBuilderImpl();
+        creditCard = new CreditCard();
     }
 
     @Test
@@ -26,13 +26,13 @@ public class CreditCardBuilderImplTest {
         CreditCard expectedCreditCard = new CreditCard();
         expectedCreditCard.setCardNumber(cardNumber);
         expectedCreditCard.setExpirationDate(expirationDate);
-        expectedCreditCard.setSecretCode(secretCode);
+        expectedCreditCard.setCvvNumber(cvvNumber);
 
-        CreditCard calculatedCreditCard = creditCardBuilder.createCreditCard(cardNumber, expirationDate, secretCode);
+        CreditCard calculatedCreditCard = creditCard.createCreditCard(cardNumber, expirationDate, cvvNumber);
 
         assertEquals(expectedCreditCard.getCardNumber(), calculatedCreditCard.getCardNumber());
         assertEquals(expectedCreditCard.getExpirationDate(), calculatedCreditCard.getExpirationDate());
-        assertEquals(expectedCreditCard.getSecretCode(), calculatedCreditCard.getSecretCode());
+        assertEquals(expectedCreditCard.getCvvNumber(), calculatedCreditCard.getCvvNumber());
         assertNull(calculatedCreditCard.getUser());
         assertEquals(0, expectedCreditCard.getId());
         System.out.print("Test passed: " + expectedCreditCard.getCardNumber() + " (expected) = " + calculatedCreditCard.getCardNumber() + " (actual)");

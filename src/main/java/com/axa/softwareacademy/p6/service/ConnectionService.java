@@ -1,6 +1,5 @@
 package com.axa.softwareacademy.p6.service;
 
-import com.axa.softwareacademy.p6.PayMyBuddyApplication;
 import com.axa.softwareacademy.p6.model.User;
 import com.axa.softwareacademy.p6.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;

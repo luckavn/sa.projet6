@@ -1,6 +1,5 @@
-package com.axa.softwareacademy.p6.dao;
+package com.axa.softwareacademy.p6.model;
 
-import com.axa.softwareacademy.p6.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class UserBuilderImplTest {
-    private UserBuilderImpl userBuilder;
+public class UserImplTest {
+    private User user;
     String firstName = "John";
     String lastName = "Doe";
     String email = "john.doe@mail.com";
@@ -19,7 +18,7 @@ public class UserBuilderImplTest {
 
     @BeforeEach
     private void setUpForTest() throws Exception {
-        userBuilder = new UserBuilderImpl();
+        user = new User();
     }
 
     @Test
@@ -29,7 +28,7 @@ public class UserBuilderImplTest {
         expectedUser.setLastName(lastName);
         expectedUser.setEmail(email);
 
-        User calculatedUser = userBuilder.createUser(firstName, lastName, email, password);
+        User calculatedUser = user.createUser(firstName, lastName, email, password);
         assertEquals(expectedUser.getFirstName(), calculatedUser.getFirstName());
         assertEquals(expectedUser.getLastName(), calculatedUser.getLastName());
         assertEquals(expectedUser.getEmail(), calculatedUser.getEmail());

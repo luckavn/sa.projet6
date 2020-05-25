@@ -62,7 +62,7 @@ public class UserControllerTest {
                 .param("userId", "1")
                 .param("cardNumber", "1234567898765432")
                 .param("expirationDate", "12/24")
-                .param("secretCode", "123"))
+                .param("cvvNumber", "123"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
