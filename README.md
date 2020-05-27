@@ -27,22 +27,20 @@ mvn clean verify (generate tests and test report)
 mvn site (generate reportings)
 ```
 
+```MyQL
+Please run file on your created db : schema.sql (src/java/resources)
+```
+
+(if you want to develop on local)
 ```Spring Boot
 mvn spring-boot:run (run app)
 mvn spring-boot:stop (stop app)
 ```
 
-## Authentication
-In order to access endpoints or service url, you will be required to log in.
-- Login = user 
-- Password = password
-
-(temporary values)
-
 ## Documentation
 Read documentation and commands for used language if hosted elsewhere (than local) : 
 
-[POSTMAN Documentation](https://web.postman.co/collections/10913454-a6589645-2d9c-4fd5-8129-f62ae0da9b6d?version=latest&workspace=d2092b1f-dd08-49c5-8834-19d41e8827bb)
+[POSTMAN Documentation](https://web.postman.co/collections/10913454-4145dfb4-350f-42c9-99d3-63bafe44f0a1?version=latest&workspace=d2092b1f-dd08-49c5-8834-19d41e8827bb)
 
 ## Contributing
 Github repo is public, you can fork it and make improvements.
