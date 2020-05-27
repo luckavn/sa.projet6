@@ -1,1 +1,8 @@
-{ "properties": [ ] }
+{
+  "properties": [
+    {
+      "name": "app.commission",
+      "type": "java.lang.Double",
+      "description": "Description for app.commission."
+  }
+] }
