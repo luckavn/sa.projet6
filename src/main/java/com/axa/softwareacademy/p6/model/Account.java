@@ -2,12 +2,12 @@ package com.axa.softwareacademy.p6.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
-@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
@@ -17,10 +17,19 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     int id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id", referencedColumnName="id")
     User user;
     float balance;
     String currency;
+
+    public Account() { }
+
+    public Account(int id, float balance, String currency) {
+        this.id = id;
+        this.balance = balance;
+        this.currency = currency;
+    }
 
     public int getId() { return id; }
 

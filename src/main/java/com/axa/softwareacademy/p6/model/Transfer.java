@@ -2,13 +2,13 @@ package com.axa.softwareacademy.p6.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "transfer")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class Transfer {
     @Id
@@ -21,6 +21,12 @@ public class Transfer {
     @OneToOne
     BankAccount bankAccount;
     float sum;
+
+    public Transfer() { }
+
+    public Transfer(@NotNull int id, float sum) { this.id = id;this.sum = sum; }
+
+    public Transfer(float sum) { this(0, sum); }
 
     public int getId() {
         return id;
@@ -60,13 +66,4 @@ public class Transfer {
         this.sum = sum;
     }
 
-    public Transfer createTransfer(Account userAccount, BankAccount userBankAccount, float sum) {
-        Transfer
-                newTransfer =
-                new Transfer();
-        newTransfer.setAccount(userAccount);
-        newTransfer.setBankAccount(userBankAccount);
-        newTransfer.setSum(sum);
-        return newTransfer;
-    }
 }

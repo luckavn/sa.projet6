@@ -1,13 +1,13 @@
 package com.axa.softwareacademy.p6.model;
 
+import com.axa.softwareacademy.p6.constant.commission;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "payment")
@@ -23,6 +23,12 @@ public class Payment {
     float sum;
     Date paymentDate;
     float commissionAmount;
+
+    public Payment() {}
+
+    public Payment(@NotNull int id, float sum) { this.id = id;this.sum = sum; }
+
+    public Payment(float sum) { this(0, sum); }
 
     public int getId() {
         return id;
@@ -69,21 +75,8 @@ public class Payment {
         this.commissionAmount = commissionAmount;
     }
 
-    public Payment createPayment(Account accountThatWillBeCharged, Account accountThatWillBeFill, float sum) {
-        Payment newPayment = new Payment();
-        Date date = new Date();
-        newPayment.setAccountTransmitter(accountThatWillBeCharged);
-        newPayment.setAccountRecipient(accountThatWillBeFill);
-        float commissionAmount = calculatePaymentCommission(sum);
-        newPayment.setCommissionAmount(commissionAmount);
-        sum = sum - commissionAmount;
-        newPayment.setSum(sum);
-        newPayment.setPaymentDate(date);
-        return newPayment;
-    }
-
-    public float calculatePaymentCommission(float sum) {
-        float commissionAmount = (float) (sum * 0.05);
+    public static float calculatePaymentCommission(float sum) {
+        float commissionAmount = (float) (sum * commission.fivePourcentCommission);
         return commissionAmount;
     }
 }
