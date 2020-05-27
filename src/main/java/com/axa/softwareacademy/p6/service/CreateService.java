@@ -16,16 +16,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Service
+/**
+ * This service is only aimed to every method used for creation and saving of element in database as User, Credit Card, Bank Account, ...
+ */
 @Transactional
+@Service
 public class CreateService {
     private static final Logger logger = LogManager.getLogger(CreateService.class);
-    @Autowired
-    User user;
-    @Autowired
-    CreditCard creditCard;
-    @Autowired
-    BankAccount bankAccount;
     @Autowired
     AccountRepository accountRepository;
     @Autowired
@@ -35,24 +32,36 @@ public class CreateService {
     @Autowired
     BankAccountRepository bankAccountRepository;
 
-
+    /**
+     * @param firstName of user given in front field handle by this method
+     * @param lastName of user given in front field handle by this method
+     * @param email of user given in front field handle by this method
+     * @param password of user given in front field handle by this method
+     * @return the user
+     */
     public User createUser(String firstName, String lastName, String email, String password) {
         Account newAccountForUser = new Account();
-        newAccountForUser.setCurrency("euro");
-        accountRepository.save(newAccountForUser);
+        User newUser = new User(firstName, lastName, email, password);
 
-        User newUser = user.createUser(firstName, lastName, email, password);
+        logger.info("Account for user saved successfully");
+
         newUser.setAccount(newAccountForUser);
-        userRepository.save(newUser);
         logger.info("New user saved successfully");
 
         newAccountForUser.setUser(newUser);
-        accountRepository.save(newAccountForUser);
+        newAccountForUser.setCurrency("euro");
+        userRepository.save(newUser);
+
         logger.info("New account for user saved successfully, linked ok");
-        logger.info(newUser);
         return newUser;
     }
 
+    /**
+     * @param id of user that will add a friend thanks to this method
+     * @param email of friend that will be added to user's friend list
+     * @return the user that wants to add a new friend
+     * @throws Exception handles that the email to be add as friend is not already one
+     */
     public User createFriendsListAndLinkToUser(int id, String email) throws Exception {
         List<User> newFriend;
         List<User> existingFriends;
@@ -75,8 +84,16 @@ public class CreateService {
         return userWhoWillAddFriend;
     }
 
+    /**
+     * @param id of user that will add a credit card thanks to this method
+     * @param cardNumber of user's credit card given in front field handle by this method
+     * @param expirationDate of user's credit card given in front field handle by this method
+     * @param cvvNumber of user's credit card given in front field handle by this method
+     * @return the user that wants to add a credit card
+     * @throws Exception if there is already a credit card registered
+     */
     public User createCreditCardAndLinkToUser(int id, String cardNumber, String expirationDate, int cvvNumber) throws Exception {
-        CreditCard newCreditCard = creditCard.createCreditCard(cardNumber, expirationDate, cvvNumber);
+        CreditCard newCreditCard = new CreditCard(cardNumber, expirationDate, cvvNumber);
         User userWhoWillAddCreditCard = userRepository.findById(id);
 
         if (userWhoWillAddCreditCard.getCreditCard() == null) {
@@ -94,8 +111,16 @@ public class CreateService {
         return userWhoWillAddCreditCard;
     }
 
+    /**
+     * @param id of user that will add a bank account thanks to this method
+     * @param iban of user's bank account given in front field handle by this method
+     * @param bic of user's bank account given in front field handle by this method
+     * @param swift of user's bank account given in front field handle by this method
+     * @return the bank account created and linked to the user
+     * @throws Exception if there is already a bank account registered
+     */
     public BankAccount createBankAccountAndLinkToUser(int id, String iban, String bic, String swift) throws Exception {
-        BankAccount newBankAccount = bankAccount.createBankAccount(iban, bic, swift);
+        BankAccount newBankAccount = new BankAccount(iban, bic, swift);
         User userWhoWillAddBankAccount = userRepository.findById(id);
         newBankAccount.setUser(userWhoWillAddBankAccount);
 
