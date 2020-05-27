@@ -2,12 +2,10 @@ package com.axa.softwareacademy.p6.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Component
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
@@ -15,13 +13,25 @@ import javax.validation.constraints.NotNull;
 public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
-    int id;
+    @NotNull Integer id;
     String cardNumber;
     String expirationDate;
     int cvvNumber;
     @OneToOne
     User user;
+
+    public CreditCard() {}
+
+    public CreditCard(@NotNull int id, String cardNumber, String expirationDate, int cvvNumber) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cvvNumber = cvvNumber;
+    }
+
+    public CreditCard(String cardNumber, String expirationDate, int cvvNumber) {
+        this(0, cardNumber, expirationDate, cvvNumber);
+    }
 
     public int getId() {
         return id;
@@ -33,17 +43,13 @@ public class CreditCard {
         return cardNumber;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
+    public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
 
     public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+    public void setExpirationDate(String expirationDate) { this.expirationDate = expirationDate; }
 
     public int getCvvNumber() { return cvvNumber; }
 
@@ -53,17 +59,6 @@ public class CreditCard {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public void setUser(User user) { this.user = user; }
 
-    public CreditCard createCreditCard(String cardNumber, String expirationDate, int cvvNumber) {
-        CreditCard
-                newCreditCard =
-                new CreditCard();
-        newCreditCard.setCardNumber(cardNumber);
-        newCreditCard.setExpirationDate(expirationDate);
-        newCreditCard.setCvvNumber(cvvNumber);
-        return newCreditCard;
-    }
 }
