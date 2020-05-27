@@ -8,11 +8,14 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAut
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ResourceBundle;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -25,7 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 @Sql(scripts = "classpath:data-h2.sql")
 @Transactional
-public class UserControllerTest {
+public class UserControllerTestIT {
+    ResourceBundle myBundle = ResourceBundle.getBundle("JsonBodyForIt");
+
     @Autowired
     MockMvc mockmvc;
 
@@ -38,79 +43,62 @@ public class UserControllerTest {
 
     @Test
     public void addNewUser() throws Exception {
-        this.mockmvc.perform(post("/user/addUser")
-                .param("firstname", "Paul")
-                .param("lastname", "Doe")
-                .param("email", "paul.doe@gmail.com")
-                .param("password", "motdepasse"))
+        this.mockmvc.perform(post("/user/addUser").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("user.add")))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void connectUser() throws Exception {
-        this.mockmvc.perform(get("/user/connect")
-                .param("email", "marc.doe@gmail.com")
-                .param("password", "password"))
+        this.mockmvc.perform(get("/user/connect").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("user.connect")))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void addCreditCardToUser() throws Exception {
-        this.mockmvc.perform(post("/user/addCreditCardToUser")
-                .param("userId", "1")
-                .param("cardNumber", "1234567898765432")
-                .param("expirationDate", "12/24")
-                .param("cvvNumber", "123"))
+        this.mockmvc.perform(post("/user/addCreditCardToUser").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("creditcard.add"))
+                .param("userId", "1"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void createBankAccountAndLinkToUserTest() throws Exception {
-        this.mockmvc.perform(post("/user/createBankAccountAndLinkToUser")
-                .param("userId", "1")
-                .param("iban", "FR293456789876543456")
-                .param("bic", "PPFRTTSSKR")
-                .param("swift", "45678654"))
+        this.mockmvc.perform(post("/user/createBankAccountAndLinkToUser").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("bankaccount.add"))
+                .param("userId", "1"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void addFriendsListToUser() throws Exception {
-        this.mockmvc.perform(post("/user/addFriend")
-                .param("userId", "1")
-                .param("friendEmail", "goeffreyv@gmail.com"))
+        this.mockmvc.perform(post("/user/addFriend").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("user.addfriend")))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void addRefillToUserBalance() throws Exception {
-        this.mockmvc.perform(post("/user/addRefillToUserBalance")
-                .param("userId", "1")
-                .param("sum", "100"))
+        this.mockmvc.perform(post("/user/addRefillToUserBalance").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("refill.add"))
+                .param("userId", "2"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void createPaymentAndUpdateBalances() throws Exception {
-        this.mockmvc.perform(post("/user/createPaymentAndUpdateBalances")
+        this.mockmvc.perform(post("/user/createPaymentAndUpdateBalances").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("payment.do"))
                 .param("userId", "1")
-                .param("friendId", "2")
-                .param("sum", "50"))
+                .param("friendId", "2"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void createTransferAndUpdateUserAccountTest() throws Exception {
-        this.mockmvc.perform(post("/user/createTransferAndUpdateUserAccount")
-                .param("userId", "1")
-                .param("sum", "100"))
+        this.mockmvc.perform(post("/user/createTransferAndUpdateUserAccount").contentType(MediaType.APPLICATION_JSON).content(myBundle.getString("transfer.do"))
+                .param("userId", "1"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
