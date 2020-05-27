@@ -11,17 +11,26 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
+/**
+ * This service is only aimed to every method used for users' connection (Sign in / Sign out) to app
+ */
 public class ConnectionService {
     private static final Logger logger = LogManager.getLogger(ConnectionService.class);
     @Autowired
     UserRepository userRepository;
 
+    /**
+     *
+     * @param email of user given in front field handle by this method
+     * @param password of user given in front field handle by this method
+     * @return the user in order to allow him to use app
+     */
     public User connectUserToSession(String email, String password) {
-        User userToConnect;
-        userToConnect = userRepository.findUserByEmail(email);
-        logger.info("User connection succeeded");
-        //PREVOIR GESTION DU MOT DE PASSE//
-        logger.info(userToConnect);
+        User userToConnect = new User();
+        if (userRepository.existsByEmail(email))
+            userToConnect = userRepository.findUserByEmail(email);
+            if (userToConnect.getPassword().contentEquals(password))
+                logger.info("User connection succeeded");
         return userToConnect;
     }
 }
